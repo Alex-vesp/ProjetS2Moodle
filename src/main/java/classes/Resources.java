@@ -1,6 +1,6 @@
 package classes;
 
-public abstract class Resources {
+public class Resources {
     private String Name = "" ;
     private String Description = "" ;
 
