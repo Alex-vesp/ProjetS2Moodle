@@ -1,28 +1,22 @@
-Fonctionnalité: Positionnement Prof 
+Feature: Courses and resources 
 
-  Background:
-    Given un prof du nom "Max"
-    And un prof du nom "Jerome"
-    And un module "gestion de projAnd" sans prof positionné sur lui 
-    And un module "programmation" 
-    And "Jerome" positioné sur "programmation"
-    And un etudiant du nom "Ahmed" 
-    And "Ahmed"  positionné sur "AIGame"
+Background: 
+Given "Qcm" resources of type "Questionnaire"
+And "Cours 1" resources of type "Cours"
+    
 
-  Scenario: Prof peut se positionner sur un cours 
-    When "Max" veut se positionner sur "gestion de projAnd"
-    Then "Max" est positionné sur "gestion de projAnd"
+Scenario: Add resources of type Questionnaire to course
+    When "Jerome" want to add resources "Qcm" to "programmation"
+    Then "Qcm" is added to "programmation"
+    
+Scenario: Add resources of type Cours to course
+    When "Jerome" want to add resources "Cours 1" to "programmation"
+    Then "Cours 1" is added to "programation"
 
-Scenario: Prof peut ajouter un enseignant a sont cours 
-    When "Jerome" veut ajouter "Max" sur le cours "programmation"
-    Then "Max" est positionné sur "programmation"
+Scenario: Visibility of resources is visible
+    When "Jerome" set visibility of "Cours 1" to "visible"
+    Then "Cours 1" is visible 
 
-Scenario: Prof peut ajouter un etudiant sa sont cours
-    When "Jerome" veut ajouter "Ahmed" sur le cours "programmation"
-    And "Ahmed" n'as pas de cours
-    Then "Ahmed" est positionné sur "programmation"
-
-Scenario: Un etudiant veut ajouter un prof sur un cours 
-    When "Ahmed" veut ajouter "Jerome" sur le cours "AIGame"
-    Then "Ahmed" ne peut pas le faire
-    Et "Jerome" n'est pas positionné sur "AIGame" 
+Scenario: Visibility of resources is hide
+    When "Jerome" set visibility of "Qcm" to "hide"
+    Then "Qcm" is hidden 
