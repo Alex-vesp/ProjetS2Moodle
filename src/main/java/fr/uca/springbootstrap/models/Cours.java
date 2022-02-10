@@ -2,6 +2,7 @@ package fr.uca.springbootstrap.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 public class Cours {
@@ -10,8 +11,19 @@ public class Cours {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "cours_texts",
+            joinColumns = @JoinColumn(name = "cours_id"),
+            inverseJoinColumns = @JoinColumn(name = "Text_id"))
+    private Set<Text> texts;
+
     public String getName() {
         return name;
+    }
+
+    public Set<Text> getTexts() {
+        return texts;
     }
 
     public void setName(String name) {

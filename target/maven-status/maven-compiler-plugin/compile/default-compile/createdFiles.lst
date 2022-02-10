@@ -1,5 +1,7 @@
 fr\uca\springbootstrap\repository\RessourceRepository.class
 fr\uca\springbootstrap\models\Ressource.class
 fr\uca\springbootstrap\models\Questionnaire.class
+fr\uca\springbootstrap\payload\request\addTextRequest.class
 fr\uca\springbootstrap\payload\request\AddRessourceRequest.class
 fr\uca\springbootstrap\repository\QuestionnaireRepository.class
+fr\uca\springbootstrap\repository\TextRepository.class

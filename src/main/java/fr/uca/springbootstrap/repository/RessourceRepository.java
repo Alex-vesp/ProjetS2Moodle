@@ -7,4 +7,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 @NoRepositoryBean
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
+
 }
