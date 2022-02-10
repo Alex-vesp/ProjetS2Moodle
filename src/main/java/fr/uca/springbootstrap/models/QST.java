@@ -16,18 +16,13 @@ public class QST {
 
 
 
-    enum Type {
-        QCM,
-        OPEN,
-        CODERUNNER
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     @Size(max = 120)
     String qstText;
-    Type qstType;
+    int qstType;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(	name = "qst_qestionnaire",
             joinColumns = @JoinColumn(name = "QST_id"),
@@ -42,10 +37,24 @@ public class QST {
     public QST() {
 
     }
-    public QST(int id, String qstText,Type qstType) {
+    public QST(String qstText,int qstType) {
         this.qstText = qstText;
         this.qstType = qstType;
     }
 
+    public String getQstText() {
+        return qstText;
+    }
 
+    public void setQstText(String qstText) {
+        this.qstText = qstText;
+    }
+
+    public int getQstType() {
+        return qstType;
+    }
+
+    public void setQstType(int qstType) {
+        this.qstType = qstType;
+    }
 }
