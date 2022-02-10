@@ -48,4 +48,9 @@ this.name=name;
 
     public Cours() {
     }
+
+    @Override
+    public String toString(){
+        return "\n id: "+this.id+"\n name: "+this.name+" \n des :"+this.des;
+    }
 }

@@ -4,17 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3560e884-f8e1-4f3f-89c3-fd37d91cbb1e" name="Changes" comment="add coues /questionnaire">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/payload/request/addTextRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/repository/TextRepository.java" afterDir="false" />
+    <list default="true" id="3560e884-f8e1-4f3f-89c3-fd37d91cbb1e" name="Changes" comment="add delete cours">
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/CoursController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/QuestionOuverteController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/QuestionnaireController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/TextController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/QuestionOuverte.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/payload/request/AddModuleRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/payload/request/addQuestionOuverteRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/repository/QuestionOuverteRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/RessourceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/RessourceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/ModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/ModuleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Cours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Cours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Text.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Text.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/repository/RessourceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/repository/RessourceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/controllers/RessourceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/controllers/RessourceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Module.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Questionnaire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Questionnaire.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/models/Cours.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/models/Cours.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/models/Text.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/models/Text.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -82,7 +86,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1643987387110</updated>
-      <workItem from="1643987388656" duration="27077000" />
+      <workItem from="1643987388656" duration="37386000" />
     </task>
     <task id="LOCAL-00001" summary="comm">
       <created>1644482473785</created>
@@ -105,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644486234679</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add delete cours">
+      <created>1644493064599</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1644493064599</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +136,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="comm" />
     <MESSAGE value="add coues /questionnaire" />
-    <option name="LAST_COMMIT_MESSAGE" value="add coues /questionnaire" />
+    <MESSAGE value="add delete cours" />
+    <option name="LAST_COMMIT_MESSAGE" value="add delete cours" />
   </component>
 </project>

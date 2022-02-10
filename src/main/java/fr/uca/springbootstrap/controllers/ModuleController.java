@@ -1,14 +1,13 @@
 package fr.uca.springbootstrap.controllers;
 
-import fr.uca.springbootstrap.models.ERole;
+import fr.uca.springbootstrap.models.*;
 import fr.uca.springbootstrap.models.Module;
-import fr.uca.springbootstrap.models.Role;
-import fr.uca.springbootstrap.models.User;
+import fr.uca.springbootstrap.payload.request.AddModuleRequest;
+import fr.uca.springbootstrap.payload.request.AddRessourceRequest;
 import fr.uca.springbootstrap.payload.request.SignupRequest;
+import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
-import fr.uca.springbootstrap.repository.ModuleRepository;
-import fr.uca.springbootstrap.repository.RoleRepository;
-import fr.uca.springbootstrap.repository.UserRepository;
+import fr.uca.springbootstrap.repository.*;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +37,12 @@ public class ModuleController {
 
 	@Autowired
 	ModuleRepository moduleRepository;
+	@Autowired
+	CoursRepository coursRepository;
+
+	@Autowired
+	QuestionnaireRepository questionnaireRepository;
+
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -78,59 +83,114 @@ public class ModuleController {
 		return ResponseEntity.ok(new MessageResponse("User successfully added to module!"));
 	}
 
-	User createUser(String userName, String email, String password, Set<String> strRoles) {
-		User user = new User(userName, email, password);
-		Set<Role> roles = new HashSet<>();
+    //modules
+	//add module :
 
-		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-					case "admin":
-						Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-						roles.add(adminRole);
-
-						break;
-					case "mod":
-						Role modRole = roleRepository.findByName(ERole.ROLE_TEACHER)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-						roles.add(modRole);
-
-						break;
-					default:
-						Role userRole = roleRepository.findByName(ERole.ROLE_STUDENT)
-								.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-						roles.add(userRole);
-				}
-			});
-		}
-		user.setRoles(roles);
-		return user;
+	@PostMapping("")
+	public ResponseEntity<?> addModule(@Valid @RequestBody AddModuleRequest addModuleRequest) {
+		Module module= new Module(addModuleRequest.getName());
+		moduleRepository.save(module);
+		return ResponseEntity.ok(new MessageResponse("Module registered successfully!"));
 	}
+	@GetMapping("")
+	public ResponseEntity<?> getModules() {
+		moduleRepository.findAll();
+		return ResponseEntity.ok(new MessageResponse(moduleRepository.findAll().toString()));
+	}
+	@GetMapping("/{moduleID}")
+	public ResponseEntity<?> getModule(@PathVariable long moduleID) {
 
-	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+		Optional<Module> omodule = moduleRepository.findById(moduleID);;
+		if (!omodule.isPresent()) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Username is already taken!"));
+					.body(new MessageResponse("Error: No such Module!"));
 		}
+		return ResponseEntity.ok(new MessageResponse(omodule.get().toString()));
+	}
+	@DeleteMapping("/{moduleID}")
+	public ResponseEntity<?> deleteModule(@PathVariable long moduleID) {
 
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		Optional<Module> omodule = moduleRepository.findById(moduleID);;
+		if (!omodule.isPresent()) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+		moduleRepository.delete(omodule.get());
+		return ResponseEntity.ok(new MessageResponse("Module deleted "));
+	}
+	//Ressources :
+	@PostMapping("/{moduleID}/Ressources/cours")
+	public ResponseEntity<?> addcours(@Valid @RequestBody AddRessourceRequest addRessourceRequest,@PathVariable long moduleID) {
+		Cours cours= new Cours(addRessourceRequest.getName(),addRessourceRequest.getDes());
+		coursRepository.save(cours);
+		Optional<Module> omodule=moduleRepository.findById(moduleID);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+		Module module=omodule.get();
+		module.getCours().add(cours);
+		moduleRepository.save(module);
+		return ResponseEntity.ok(new MessageResponse("cours registered successfully!"));
+	}
+	//get All cours pour un module
+	@GetMapping("/{moduleID}/Ressources/cours")
+	public ResponseEntity<?> getcours(@PathVariable long moduleID) {
+
+		Optional<Module> omodule=moduleRepository.findById(moduleID);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
 		}
 
-		// Create new user's account
-		User user = createUser(signUpRequest.getUsername(),
-							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
-		userRepository.save(user);
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		return ResponseEntity.ok(omodule.get().getCours().toString());
 	}
-}
+	//get All cours pour un module
+
+	//Ressources :
+	@PostMapping("/{moduleID}/Ressources/questionnaire")
+	public ResponseEntity<?> addquestionnaire(@Valid @RequestBody AddRessourceRequest addRessourceRequest,@PathVariable long moduleID) {
+		Questionnaire questionnaire= new Questionnaire(addRessourceRequest.getName(),addRessourceRequest.getDes());
+		questionnaireRepository.save(questionnaire);
+		Optional<Module> omodule=moduleRepository.findById(moduleID);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+		Module module=omodule.get();
+		module.getQuestionnaires().add(questionnaire);
+		moduleRepository.save(module);
+		return ResponseEntity.ok(new MessageResponse("questionnaire registered successfully!"));
+	}
+
+	@GetMapping("/{moduleID}/Ressources/questionnaire")
+	public ResponseEntity<?> getQuest(@PathVariable long moduleID) {
+
+		Optional<Module> omodule=moduleRepository.findById(moduleID);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+
+		return ResponseEntity.ok(omodule.get().getQuestionnaires().toString());
+	}
+
+
+
+	}
+
+
+
+
+
+
+	//
+
+
+

@@ -16,11 +16,20 @@ public class Questionnaire {
     private String name;
     @NotBlank
     private String des;
+
+    public Set<QuestionOuverte> getQsts() {
+        return qsts;
+    }
+
+    public void setQsts(Set<QuestionOuverte> qsts) {
+        this.qsts = qsts;
+    }
+
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(	name = "questionnaire_qst",
+    @JoinTable(	name = "questionnaire_QuestionOuverte",
             joinColumns = @JoinColumn(name = "Questionnaire_id"),
-            inverseJoinColumns = @JoinColumn(name = "QST_id"))
-    private Set<QST> qsts;
+            inverseJoinColumns = @JoinColumn(name = "QuestionOuverte_id"))
+    private Set<QuestionOuverte> qsts;
 
     public Questionnaire(String name, String des) {
         this.name=name;
@@ -42,5 +51,10 @@ public class Questionnaire {
 
     public String getDes() {
         return des;
+    }
+
+    @Override
+    public String toString(){
+        return "\n id: "+this.id+"\n name: "+this.name+" \n des :"+this.des;
     }
 }

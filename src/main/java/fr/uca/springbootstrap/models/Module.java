@@ -28,6 +28,27 @@ public class Module {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> participants;
 
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "modules_cours",
+            joinColumns = @JoinColumn(name = "module_id"),
+            inverseJoinColumns = @JoinColumn(name = "cours_id"))
+    private Set<Cours> cours;
+
+    public Set<Questionnaire> getQuestionnaires() {
+        return questionnaires;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "modules_questionnaires",
+            joinColumns = @JoinColumn(name = "module_id"),
+            inverseJoinColumns = @JoinColumn(name = "questionnaire_id"))
+    private Set<Questionnaire> questionnaires;
+
+    public Set<Cours> getCours() {
+        return cours;
+    }
+
     public Module() {
     }
 
@@ -49,5 +70,9 @@ public class Module {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    @Override
+    public String toString(){
+        return this.name;
     }
 }
