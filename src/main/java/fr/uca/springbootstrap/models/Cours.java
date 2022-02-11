@@ -22,6 +22,10 @@ public class Cours {
         return name;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Set<Text> getTexts() {
         return texts;
     }

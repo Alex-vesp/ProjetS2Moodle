@@ -28,6 +28,7 @@ fr\uca\springbootstrap\controllers\QuestionnaireController.class
 fr\uca\springbootstrap\SpringBootSecurityPostgresqlApplication.class
 fr\uca\springbootstrap\repository\QuestionnaireRepository.class
 fr\uca\springbootstrap\repository\TextRepository.class
+fr\uca\springbootstrap\models\Cours.class
 fr\uca\springbootstrap\repository\QSTRepository.class
 fr\uca\springbootstrap\controllers\RessourceController.class
 fr\uca\springbootstrap\repository\QuestionOuverteRepository.class

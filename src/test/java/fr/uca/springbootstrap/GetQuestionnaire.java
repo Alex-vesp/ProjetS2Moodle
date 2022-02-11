@@ -57,7 +57,7 @@ public class GetQuestionnaire  extends SpringIntegration{
         if (questionnaire.isPresent()){
             response = questionnaire.get();
         }
-        executeGet("http://localhost:8080/api/"+arg0);
+        executeGet("http://localhost:8080/api/questionnaire/"+arg0);
     }
 
     @Then("he can visualize the name {string}, the id {long} and the description {string}")
