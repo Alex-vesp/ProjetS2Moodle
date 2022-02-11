@@ -106,4 +106,9 @@ public class User {
 	public int hashCode() {
 		return Objects.hash(id, username, email, password);
 	}
+
+	@Override
+	public String toString(){
+		return  " \n User{email : "+this.email+" username : "+this.username+"}";
+	}
 }

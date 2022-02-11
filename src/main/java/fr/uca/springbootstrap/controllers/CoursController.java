@@ -10,6 +10,7 @@ import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +25,7 @@ public class CoursController {
     @Autowired
     TextRepository textRepository;
 
-
+    @PreAuthorize("hasRole('TEACHER')")
     @DeleteMapping("/{coursID}")
     public ResponseEntity<?> deleteCours(@PathVariable long coursID) {
         Optional<Cours> ocours = coursRepository.findById(coursID);
@@ -66,7 +67,7 @@ public class CoursController {
 
         return ResponseEntity.ok(ocours.get().getTexts().toString());
     }
-
+    @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/{coursID}/texts")
     public ResponseEntity<?> settexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long coursID) {
         Optional<Cours> ocours = coursRepository.findById(coursID);

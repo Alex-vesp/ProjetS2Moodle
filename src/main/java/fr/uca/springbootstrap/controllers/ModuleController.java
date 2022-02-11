@@ -50,6 +50,19 @@ public class ModuleController {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@GetMapping("/{id}/participants")
+	@PreAuthorize("hasRole('TEACHER')")
+	public ResponseEntity<?> getPArticipants(@PathVariable long id) {
+		Optional<Module> omodule = moduleRepository.findById(id);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such module!"));
+		}
+		Module module =omodule.get();
+		return ResponseEntity.ok(new MessageResponse(module.getParticipants().toString()));
+	}
+
 	@PostMapping("/{id}/participants/{userid}")
 	@PreAuthorize("hasRole('TEACHER')")
 	public ResponseEntity<?> addUser(Principal principal, @PathVariable long id, @PathVariable long userid) {
@@ -71,6 +84,7 @@ public class ModuleController {
 		User actor = userRepository.findByUsername(principal.getName()).get();
 
 		Set<User> participants = module.getParticipants();
+
 		if ((participants.isEmpty() && actor.equals(user))
 				|| participants.contains(actor)) {
 			participants.add(user);
@@ -79,6 +93,8 @@ public class ModuleController {
 					.badRequest()
 					.body(new MessageResponse("Error: Not allowed to add user!"));
 		}
+		//ligne ajoutée
+		participants.add(user);
 		moduleRepository.save(module);
 		return ResponseEntity.ok(new MessageResponse("User successfully added to module!"));
 	}
@@ -87,6 +103,7 @@ public class ModuleController {
 	//add module :
 
 	@PostMapping("")
+	@PreAuthorize("hasRole('TEACHER')")
 	public ResponseEntity<?> addModule(@Valid @RequestBody AddModuleRequest addModuleRequest) {
 		Module module= new Module(addModuleRequest.getName());
 		moduleRepository.save(module);
@@ -109,6 +126,7 @@ public class ModuleController {
 		return ResponseEntity.ok(new MessageResponse(omodule.get().toString()));
 	}
 	@DeleteMapping("/{moduleID}")
+	@PreAuthorize("hasRole('TEACHER')")
 	public ResponseEntity<?> deleteModule(@PathVariable long moduleID) {
 
 		Optional<Module> omodule = moduleRepository.findById(moduleID);;
@@ -121,6 +139,7 @@ public class ModuleController {
 		return ResponseEntity.ok(new MessageResponse("Module deleted "));
 	}
 	//Ressources :
+	@PreAuthorize("hasRole('TEACHER')")
 	@PostMapping("/{moduleID}/Ressources/cours")
 	public ResponseEntity<?> addcours(@Valid @RequestBody AddRessourceRequest addRessourceRequest,@PathVariable long moduleID) {
 		Cours cours= new Cours(addRessourceRequest.getName(),addRessourceRequest.getDes());
@@ -138,7 +157,7 @@ public class ModuleController {
 	}
 	//get All cours pour un module
 	@GetMapping("/{moduleID}/Ressources/cours")
-	public ResponseEntity<?> getcours(@PathVariable long moduleID) {
+	public ResponseEntity<?> getcours(Principal principal,@PathVariable long moduleID) {
 
 		Optional<Module> omodule=moduleRepository.findById(moduleID);
 		if (!omodule.isPresent()) {
@@ -147,11 +166,23 @@ public class ModuleController {
 					.body(new MessageResponse("Error: No such Module!"));
 		}
 
+		//verifie si l utlisateur est bien inscrit au cours :
+		Module module=omodule.get();
+		User actor = userRepository.findByUsername(principal.getName()).get();
+		if(!module.getParticipants().contains(actor)){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Not allowed ! Utilisateur pas inscrit au cours"));
+
+		}
+
+
 		return ResponseEntity.ok(omodule.get().getCours().toString());
 	}
 	//get All cours pour un module
 
 	//Ressources :
+	@PreAuthorize("hasRole('TEACHER')")
 	@PostMapping("/{moduleID}/Ressources/questionnaire")
 	public ResponseEntity<?> addquestionnaire(@Valid @RequestBody AddRessourceRequest addRessourceRequest,@PathVariable long moduleID) {
 		Questionnaire questionnaire= new Questionnaire(addRessourceRequest.getName(),addRessourceRequest.getDes());
@@ -169,13 +200,22 @@ public class ModuleController {
 	}
 
 	@GetMapping("/{moduleID}/Ressources/questionnaire")
-	public ResponseEntity<?> getQuest(@PathVariable long moduleID) {
+	public ResponseEntity<?> getQuest(Principal principal,@PathVariable long moduleID) {
 
 		Optional<Module> omodule=moduleRepository.findById(moduleID);
 		if (!omodule.isPresent()) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: No such Module!"));
+		}
+		//verifie si l utlisateur est bien inscrit au cours :
+		Module module=omodule.get();
+		User actor = userRepository.findByUsername(principal.getName()).get();
+		if(!module.getParticipants().contains(actor)){
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Not allowed ! Utilisateur pas inscrit au cours"));
+
 		}
 
 		return ResponseEntity.ok(omodule.get().getQuestionnaires().toString());

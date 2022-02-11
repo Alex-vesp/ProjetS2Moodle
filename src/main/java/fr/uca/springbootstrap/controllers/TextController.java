@@ -7,6 +7,7 @@ import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class TextController {
 
 
     @DeleteMapping("/{textID}")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> deleteCours(@PathVariable long textID) {
         Optional<Text> otexts = textRepository.findById(textID);
         if (!otexts.isPresent()) {

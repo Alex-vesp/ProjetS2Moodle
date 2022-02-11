@@ -10,6 +10,7 @@ import fr.uca.springbootstrap.repository.QuestionnaireRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class QuestionOuverteController {
 
 
     @DeleteMapping("/{questouvID}")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> deleteCours(@PathVariable long questouvID) {
         Optional<QuestionOuverte> oquestO = questionOuverteRepository.findById(questouvID);
         if (!oquestO.isPresent()) {

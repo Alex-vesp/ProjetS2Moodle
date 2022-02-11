@@ -13,6 +13,7 @@ import fr.uca.springbootstrap.repository.QuestionnaireRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class QuestionnaireController {
 
 
     @DeleteMapping("/{questID}")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> deleteCours(@PathVariable long questID) {
         Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
         if (!oquest.isPresent()) {
@@ -71,6 +73,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping("/{questID}/questionsOuvertes")
+    @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> settexts(@Valid @RequestBody addQuestionOuverteRequest addQuestionOuverteRequest, @PathVariable long questID) {
         Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
         if (!oquest.isPresent()) {
