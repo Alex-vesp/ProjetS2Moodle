@@ -22,9 +22,6 @@ public class Cours {
         return name;
     }
 
-    public Long getId() {
-        return id;
-    }
 
     public Set<Text> getTexts() {
         return texts;
@@ -56,10 +53,6 @@ public class Cours {
     public Cours(String name) {
         this.name=name;
 }
-
-    public Long getId() {
-        return id;
-    }
 
     public Cours() {
     }
