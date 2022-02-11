@@ -8,17 +8,20 @@ import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RegisterCoursStepDef extends SpringIntegration{
+public class DeleteCoursStepDefs  extends SpringIntegration{
+
     private static final String PASSWORD = "password";
 
     @Autowired
@@ -39,27 +42,34 @@ public class RegisterCoursStepDef extends SpringIntegration{
     @Autowired
     PasswordEncoder encoder;
 
-    @When("{string} registers  cours named  {string} in {string}")
-    public void registersCoursNamedIn(String arg0, String arg1, String arg2) throws IOException {
+    @And("And a module named {string}")
+    public void andAModuleNamed(String arg0) {
+        Module module = moduleRepository.findByName(arg0).orElse(new Module(arg0));
+        module.setParticipants(new HashSet<>());
+        moduleRepository.save(module);
+    }
+
+    @And("a cours named {string}")
+    public void aCoursNamed(String arg0) {
+        Cours cours = coursRepository.findByName(arg0).orElse(new Cours(arg0,"jjjjj"));
+        coursRepository.save(cours);
+    }
+
+    @When("{string} delete  cours named  {string} in {string}")
+    public void deleteCoursNamedIn(String arg0, String arg1, String arg2) throws IOException {
+
         String jwt = authController.generateJwt(arg0, PASSWORD);
         User user = userRepository.findByUsername(arg0).get();
-        Module module= moduleRepository.findByName(arg2).get();
-
-        String obj="{\"name\":\""+arg1+"\"," +
-               "\"des\":\""+"content"+"\""+
-                "}";
+        //supprimer si le module avec ce nom existe déja :
         Optional<Cours> ocours= coursRepository.findByName(arg1);
-
-
-        if (!ocours.isPresent()) {
-            executeOPost("http://localhost:8080/api/module/" + module.getId() + "/Ressources/cours", jwt, obj);
-        }
+        executeDelete("http://localhost:8080/api/cours/"+ocours.get().getId(),jwt);
 
     }
 
-    @Then("{string} is registered to cours in {string}")
-    public void isRegisteredToCoursIn(String arg0, String arg1) {
+    @Then("{string} is  not registered to cours in {string}")
+    public void isNotRegisteredToCoursIn(String arg0, String arg1) {
         Optional<Cours> ocours = coursRepository.findByName(arg0);
-        assertTrue(ocours.isPresent());
+        assertTrue(!ocours.isPresent());
+
     }
 }
