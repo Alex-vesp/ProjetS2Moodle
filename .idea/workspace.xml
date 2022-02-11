@@ -4,22 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3560e884-f8e1-4f3f-89c3-fd37d91cbb1e" name="Changes" comment="add delete cours">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/CoursController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/QuestionOuverteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/QuestionnaireController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/TextController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/QuestionOuverte.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/payload/request/AddModuleRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/payload/request/addQuestionOuverteRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/repository/QuestionOuverteRepository.java" afterDir="false" />
+    <list default="true" id="3560e884-f8e1-4f3f-89c3-fd37d91cbb1e" name="Changes" comment="test register cours ,&#10;test register module">
+      <change afterPath="$PROJECT_DIR$/src/test/java/fr/uca/springbootstrap/DeleteCoursStepDefs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/features/DeleteCours.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/ModuleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/controllers/ModuleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Cours.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Cours.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Module.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Questionnaire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fr/uca/springbootstrap/models/Questionnaire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/uca/springbootstrap/RegisterCoursStepDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/uca/springbootstrap/RegisterCoursStepDef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/fr/uca/springbootstrap/SpringIntegration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/fr/uca/springbootstrap/SpringIntegration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/RegisterCours.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/RegisterCours.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/models/Cours.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fr/uca/springbootstrap/models/Cours.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,10 +27,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="kadiro" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -58,7 +54,92 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.RunCucumberTest">
+    <configuration name="Feature: DeleteCours" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/DeleteCours.feature" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="MoodleLite" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
+      <option name="SUGGESTED_NAME" value="Feature: DeleteCours" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Feature: RegisterCours" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/RegisterCours.feature" />
+      <option name="GLUE" value="fr.uca.springbootstrap" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="MoodleLite" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
+      <option name="SUGGESTED_NAME" value="Feature: RegisterCours" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Feature: RegisterTeacher" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java" temporary="true" nameIsGenerated="true">
+      <option name="CUCUMBER_CORE_VERSION" value="5" />
+      <option name="FILE_PATH" value="$PROJECT_DIR$/src/test/resources/features/RegisterTeacher.feature" />
+      <option name="GLUE" value="fr.uca.springbootstrap" />
+      <option name="MAIN_CLASS_NAME" value="io.cucumber.core.cli.Main" />
+      <module name="MoodleLite" />
+      <option name="PROGRAM_PARAMETERS" value=" --plugin org.jetbrains.plugins.cucumber.java.run.CucumberJvm5SMFormatter" />
+      <option name="SUGGESTED_NAME" value="Feature: RegisterTeacher" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.cucumber.core.cli.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RunCucumberTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MoodleLite" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.uca.springbootstrap.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.uca.springbootstrap" />
+      <option name="MAIN_CLASS_NAME" value="fr.uca.springbootstrap.RunCucumberTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="features in MoodleLite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MoodleLite" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="features" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -77,6 +158,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RunCucumberTest" />
+        <item itemvalue="Cucumber Java.Feature: DeleteCours" />
+        <item itemvalue="Cucumber Java.Feature: RegisterCours" />
+        <item itemvalue="JUnit.features in MoodleLite" />
+        <item itemvalue="Cucumber Java.Feature: RegisterTeacher" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -86,7 +176,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1643987387110</updated>
-      <workItem from="1643987388656" duration="37386000" />
+      <workItem from="1643987388656" duration="49290000" />
+      <workItem from="1644592600401" duration="1294000" />
     </task>
     <task id="LOCAL-00001" summary="comm">
       <created>1644482473785</created>
@@ -116,7 +207,28 @@
       <option name="project" value="LOCAL" />
       <updated>1644493064599</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Rest text/QUestio">
+      <created>1644527008374</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1644527008375</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Rest text/QUestio">
+      <created>1644583294884</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1644583294885</updated>
+    </task>
+    <task id="LOCAL-00007" summary="test register cours ,&#10;test register module">
+      <created>1644590724401</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1644590724401</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,11 +244,14 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="comm" />
     <MESSAGE value="add coues /questionnaire" />
     <MESSAGE value="add delete cours" />
-    <option name="LAST_COMMIT_MESSAGE" value="add delete cours" />
+    <MESSAGE value="Rest text/QUestio" />
+    <MESSAGE value="test register cours ,&#10;test register module" />
+    <option name="LAST_COMMIT_MESSAGE" value="test register cours ,&#10;test register module" />
   </component>
 </project>

@@ -46,6 +46,10 @@ public class Cours {
 this.name=name;
     this.des=des;}
 
+    public Long getId() {
+        return id;
+    }
+
     public Cours() {
     }
 
