@@ -64,6 +64,7 @@ public class RegisterTeacherStepDefs extends SpringIntegration {
 //        executePost("http://localhost:8080/api/test/mod", jwt);
 //        executePost("http://localhost:8080/api/module/1/participants/7", jwt);
         executePost("http://localhost:8080/api/module/"+module.getId()+"/participants/"+user.getId(), jwt);
+
     }
     @Then("last request status is {int}")
     public void isRegisteredToModule(int status) {

@@ -34,4 +34,15 @@ public class SpringIntegration {
         request.setEntity(new StringEntity("{}"));
         latestHttpResponse = httpClient.execute(request);
     }
+
+    void executeOPost(String url, String jwt,String body) throws IOException {
+        HttpPost request = new HttpPost(url);
+        request.addHeader("content-type", "application/json");
+        if (jwt != null) {
+            request.addHeader("Authorization", "Bearer " + jwt);
+        }
+        request.setEntity(new StringEntity(body));
+        latestHttpResponse = httpClient.execute(request);
+    }
+
 }
