@@ -34,6 +34,10 @@ public class Cours {
         this.des = des;
     }
 
+    public void setTexts(Set<Text> texts) {
+        this.texts = texts;
+    }
+
     public String getDes() {
         return des;
     }
@@ -43,10 +47,17 @@ public class Cours {
     @NotBlank
     private String des;
     public Cours(String name, String des) {
-this.name=name;
+        this.name=name;
     this.des=des;}
+    public Cours(String name) {
+        this.name=name;
+}
 
     public Cours() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override
