@@ -25,6 +25,18 @@ public class QuestionOuverte {
 
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getReponse() {
+        return reponse;
+    }
+
     @Override
     public String toString(){
         return "\n QuestionOuverte{ question : "+this.text+"reponse : "+this.reponse+" }";
