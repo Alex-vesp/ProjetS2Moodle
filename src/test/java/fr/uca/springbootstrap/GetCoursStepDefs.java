@@ -49,7 +49,7 @@ public class GetCoursStepDefs extends SpringIntegration{
 
 
     @When("{string} get  course named  {string} in {string}")
-    public void getModuleNamed(String arg0, String arg1, String arg2) throws IOException {
+    public void getCourseNamed(String arg0, String arg1, String arg2) throws IOException {
 
         String jwt = authController.generateJwt(arg0, PASSWORD);
         User user = userRepository.findByUsername(arg0).get();
@@ -62,7 +62,7 @@ public class GetCoursStepDefs extends SpringIntegration{
     }
 
     @Then("{string} is read from courses")
-    public void isReadFromModules(String arg0) throws IOException {
+    public void isReadFromCourses(String arg0) throws IOException {
         //module qui a l'id  supprimé :
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);

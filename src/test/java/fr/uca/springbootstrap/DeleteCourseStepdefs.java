@@ -50,7 +50,7 @@ public class DeleteCourseStepdefs extends SpringIntegration{
 
 
     @When("{string} delete  course named  {string} in module {string}")
-    public void deleteModuleNamed(String arg0, String arg1, String arg2) throws IOException {
+    public void deleteCourseNamed(String arg0, String arg1, String arg2) throws IOException {
 
         String jwt = authController.generateJwt(arg0, PASSWORD);
         //supprimer si le module avec ce nom existe déja :
@@ -59,7 +59,7 @@ public class DeleteCourseStepdefs extends SpringIntegration{
     }
 
     @Then("{string} is deleted from courses")
-    public void isDeletedFromModules(String arg0) throws IOException {
+    public void isDeletedFromCourses(String arg0) throws IOException {
         //module qui a l'id  supprimé :
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
