@@ -40,8 +40,14 @@ public class QuestionnaireController {
                     .badRequest()
                     .body(new MessageResponse("Error: No such questionnaire!"));
         }
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquest.get().getId());
+        jsonObject.toString();
         questionnaireRepository.delete(oquest.get());
-        return ResponseEntity.ok(new MessageResponse("questionnaire deleted !"));
+        return ResponseEntity.ok(jsonObject.toString());
+
+
+
 
 
     }
