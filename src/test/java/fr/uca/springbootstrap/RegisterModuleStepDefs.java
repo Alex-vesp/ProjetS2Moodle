@@ -11,13 +11,18 @@ import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RegisterModuleStepDefs  extends SpringIntegration{
@@ -51,20 +56,29 @@ public class RegisterModuleStepDefs  extends SpringIntegration{
     @When("{string} registers  module {string}")
     public void registersModule(String arg0, String arg1) throws IOException {
         String jwt = authController.generateJwt(arg0, PASSWORD);
-        User user = userRepository.findByUsername(arg0).get();
-        //supprimer si le module avec ce nom existe déja :
-        Optional<Module> omodule= moduleRepository.findByName(arg1);
-        if (omodule.isPresent()){
-            moduleRepository.delete(omodule.get());
-        }
-        String obj="{\"name\":\""+arg1+"\"}";
-        executeOPost("http://localhost:8080/api/module/",jwt,obj);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("name",arg1);
+        executeOPost("http://localhost:8080/api/module/",jwt,jsonObject.toString());
 
     }
 
     @And("{string} is registered to modules")
-    public void isRegisteredToModules(String arg0) {
-        Optional<Module> omodule = moduleRepository.findByName(arg0);
+    public void isRegisteredToModules(String arg0) throws IOException {
+        //lire le resultat de la requete  et recuperer l'ID
+        HttpEntity entity = latestHttpResponse.getEntity();
+        String content = EntityUtils.toString(entity);
+        JSONObject jsonObject= new JSONObject(content);
+        int id=jsonObject.getInt("id");
+
+        Optional<Module> omodule= moduleRepository.findById((long) id);
         assertTrue(omodule.isPresent());
+        assertEquals(omodule.get().getName(),arg0);
+    }
+
+    @And("Then last request status is {int}")
+    public void thenLastRequestStatusIs(int arg0) throws IOException {
+
+        assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),200);
+
     }
 }

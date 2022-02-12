@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models;
 
+import org.json.JSONObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,10 @@ public class Text {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public Long getId() {
+        return id;
+    }
+
     @NotBlank
     private String text;
 
@@ -22,7 +28,10 @@ public class Text {
     }
     @Override
     public String toString(){
-        return "Text{"+"id="+this.id+",text="+this.text+"}";
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("name",this.text);
+        jsonObject.put("id",this.id);
+        return jsonObject.toString();
     }
 
 }

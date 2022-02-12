@@ -8,6 +8,7 @@ import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,7 +82,10 @@ public class CoursController {
         Cours cours = ocours.get();
         cours.getTexts().add(text);
         coursRepository.save(cours);
-        return ResponseEntity.ok(new MessageResponse("Text registered successfully!"));
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",text.getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
 }

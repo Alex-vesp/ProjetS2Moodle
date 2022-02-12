@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
@@ -73,6 +75,9 @@ public class Module {
     }
     @Override
     public String toString(){
-        return this.name;
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("name",this.name);
+        jsonObject.put("id",this.id);
+        return jsonObject.toString();
     }
 }

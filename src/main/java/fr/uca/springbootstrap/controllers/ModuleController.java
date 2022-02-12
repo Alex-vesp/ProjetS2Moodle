@@ -9,6 +9,7 @@ import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.*;
 import fr.uca.springbootstrap.security.jwt.JwtUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -107,7 +108,10 @@ public class ModuleController {
 	public ResponseEntity<?> addModule(@Valid @RequestBody AddModuleRequest addModuleRequest) {
 		Module module= new Module(addModuleRequest.getName());
 		moduleRepository.save(module);
-		return ResponseEntity.ok(new MessageResponse("Module registered successfully!"));
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",module.getId());
+	    jsonObject.toString();
+		return ResponseEntity.ok(jsonObject.toString());
 	}
 	@GetMapping("")
 	public ResponseEntity<?> getModules() {
@@ -123,7 +127,7 @@ public class ModuleController {
 					.badRequest()
 					.body(new MessageResponse("Error: No such Module!"));
 		}
-		return ResponseEntity.ok(new MessageResponse(omodule.get().toString()));
+		return ResponseEntity.ok(omodule.get().toString());
 	}
 	@DeleteMapping("/{moduleID}")
 	@PreAuthorize("hasRole('TEACHER')")
@@ -135,8 +139,11 @@ public class ModuleController {
 					.badRequest()
 					.body(new MessageResponse("Error: No such Module!"));
 		}
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",omodule.get().getId());
+		jsonObject.toString();
 		moduleRepository.delete(omodule.get());
-		return ResponseEntity.ok(new MessageResponse("Module deleted "));
+		return ResponseEntity.ok(jsonObject.toString());
 	}
 	//Ressources :
 	@PreAuthorize("hasRole('TEACHER')")
@@ -153,7 +160,10 @@ public class ModuleController {
 		Module module=omodule.get();
 		module.getCours().add(cours);
 		moduleRepository.save(module);
-		return ResponseEntity.ok(new MessageResponse("cours registered successfully!"));
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",cours.getId());
+		jsonObject.toString();
+		return ResponseEntity.ok(jsonObject.toString());
 	}
 	//get All cours pour un module
 	@GetMapping("/{moduleID}/Ressources/cours")
@@ -196,7 +206,9 @@ public class ModuleController {
 		Module module=omodule.get();
 		module.getQuestionnaires().add(questionnaire);
 		moduleRepository.save(module);
-		return ResponseEntity.ok(new MessageResponse("questionnaire registered successfully!"));
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",questionnaire.getId());
+		return ResponseEntity.ok(jsonObject.toString());
 	}
 
 	@GetMapping("/{moduleID}/Ressources/questionnaire")
