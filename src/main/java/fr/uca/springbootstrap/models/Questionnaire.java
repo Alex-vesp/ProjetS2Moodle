@@ -9,6 +9,10 @@ import java.util.Set;
 @Table(	name = "Questionnaire")
 public class Questionnaire {
 
+    public Long getId() {
+        return id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

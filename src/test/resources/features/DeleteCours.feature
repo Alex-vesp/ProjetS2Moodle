@@ -2,7 +2,7 @@ Feature: Delete Cours
 
   Background:
     Given a teacher with login "teacherX"
-    And And a module named "module1"
+    And And a  module named "module1"
     And a cours named "coursN"
 
   Scenario: Teacher delete  cours

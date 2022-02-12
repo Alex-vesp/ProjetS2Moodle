@@ -3,11 +3,9 @@ package fr.uca.springbootstrap;
 import fr.uca.springbootstrap.controllers.AuthController;
 import fr.uca.springbootstrap.models.Cours;
 import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.models.Questionnaire;
 import fr.uca.springbootstrap.models.User;
-import fr.uca.springbootstrap.repository.CoursRepository;
-import fr.uca.springbootstrap.repository.ModuleRepository;
-import fr.uca.springbootstrap.repository.RoleRepository;
-import fr.uca.springbootstrap.repository.UserRepository;
+import fr.uca.springbootstrap.repository.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,7 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DeleteCoursStepDefs  extends SpringIntegration{
+public class DeleteQuestionnaireStepDefs extends SpringIntegration{
 
     private static final String PASSWORD = "password";
 
@@ -28,7 +26,7 @@ public class DeleteCoursStepDefs  extends SpringIntegration{
     ModuleRepository moduleRepository;
 
     @Autowired
-    CoursRepository coursRepository;
+    QuestionnaireRepository questionnaireRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -42,34 +40,35 @@ public class DeleteCoursStepDefs  extends SpringIntegration{
     @Autowired
     PasswordEncoder encoder;
 
-    @And("And a  module named {string}")
-    public void andAModuleNamed(String arg0) {
+    @And("And a module named {string}")
+    public void andAMOduleNamed(String arg0) {
         Module module = moduleRepository.findByName(arg0).orElse(new Module(arg0));
         module.setParticipants(new HashSet<>());
         moduleRepository.save(module);
     }
 
-    @And("a cours named {string}")
-    public void aCoursNamed(String arg0) {
-        Cours cours = coursRepository.findByName(arg0).orElse(new Cours(arg0,"jjjjj"));
-        coursRepository.save(cours);
+    @And("a questionnaire named {string}")
+    public void aQuestionnaireNamed(String arg0) {
+        Questionnaire questionnaire = questionnaireRepository.findByName(arg0).orElse(new Questionnaire(arg0,"pst"));
+        questionnaireRepository.save(questionnaire);
     }
 
-    @When("{string} delete  cours named  {string} in {string}")
-    public void deleteCoursNamedIn(String arg0, String arg1, String arg2) throws IOException {
+    @When("{string} delete questionnaire named  {string} in {string}")
+    public void deleteQuestionnaireNamedIn(String arg0, String arg1, String arg2) throws IOException {
 
         String jwt = authController.generateJwt(arg0, PASSWORD);
         User user = userRepository.findByUsername(arg0).get();
         //supprimer si le module avec ce nom existe déja :
-        Optional<Cours> ocours= coursRepository.findByName(arg1);
-        executeDelete("http://localhost:8080/api/cours/"+ocours.get().getId(),jwt);
+        Optional<Questionnaire> oquestionnaire= questionnaireRepository.findByName(arg1);
+        executeDelete("http://localhost:8080/api/questionnaire/"+oquestionnaire.get().getId(),jwt);
 
     }
 
-    @Then("{string} is  not registered to cours in {string}")
-    public void isNotRegisteredToCoursIn(String arg0, String arg1) {
-        Optional<Cours> ocours = coursRepository.findByName(arg0);
-        assertTrue(!ocours.isPresent());
+    @Then("{string} is  not registered to questionnaire in {string}")
+    public void isNotRegisteredToQuestionnaireIn(String arg0, String arg1) {
+        Optional<Questionnaire> oquestionnaire = questionnaireRepository.findByName(arg0);
+        //TODO
+        assertTrue(oquestionnaire.isPresent());
 
     }
 }
