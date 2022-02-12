@@ -11,6 +11,7 @@ import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.QuestionOuverteRepository;
 import fr.uca.springbootstrap.repository.QuestionnaireRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -87,7 +88,10 @@ public class QuestionnaireController {
         Questionnaire questionnaire = oquest.get();
         questionnaire.getQsts().add(questionOuverte);
        questionnaireRepository.save(questionnaire);
-        return ResponseEntity.ok(new MessageResponse("Question ouverte registered successfully!"));
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",questionOuverte.getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
 }

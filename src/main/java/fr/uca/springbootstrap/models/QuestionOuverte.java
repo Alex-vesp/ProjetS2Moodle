@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models;
 
+import org.json.JSONObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +12,10 @@ public class QuestionOuverte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Long getId() {
+        return id;
+    }
 
     @NotBlank
     private String text;
@@ -27,6 +33,10 @@ public class QuestionOuverte {
 
     @Override
     public String toString(){
-        return "\n QuestionOuverte{ question : "+this.text+"reponse : "+this.reponse+" }";
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",this.id);
+        jsonObject.put("text",this.text);
+        jsonObject.put("reponse",this.reponse);
+        return jsonObject.toString();
     }
 }

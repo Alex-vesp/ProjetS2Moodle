@@ -11,17 +11,19 @@ import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.http.HttpEntity;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DeleteCoursStepDefs  extends SpringIntegration{
-
+public class DeleteModuleStepdefs extends SpringIntegration{
     private static final String PASSWORD = "password";
 
     @Autowired
@@ -42,34 +44,34 @@ public class DeleteCoursStepDefs  extends SpringIntegration{
     @Autowired
     PasswordEncoder encoder;
 
-    @And("And a module named {string}")
-    public void andAModuleNamed(String arg0) {
-        Module module = moduleRepository.findByName(arg0).orElse(new Module(arg0));
-        module.setParticipants(new HashSet<>());
-        moduleRepository.save(module);
-    }
-
-    @And("a cours named {string}")
-    public void aCoursNamed(String arg0) {
-        Cours cours = coursRepository.findByName(arg0).orElse(new Cours(arg0,"jjjjj"));
-        coursRepository.save(cours);
-    }
-
-    @When("{string} delete  cours named  {string} in {string}")
-    public void deleteCoursNamedIn(String arg0, String arg1, String arg2) throws IOException {
+    @When("{string} delete  module named  {string}")
+    public void deleteModuleNamed(String arg0, String arg1) throws IOException {
 
         String jwt = authController.generateJwt(arg0, PASSWORD);
         User user = userRepository.findByUsername(arg0).get();
         //supprimer si le module avec ce nom existe déja :
-        Optional<Cours> ocours= coursRepository.findByName(arg1);
-        executeDelete("http://localhost:8080/api/cours/"+ocours.get().getId(),jwt);
-
+        Optional<Module> omodule= moduleRepository.findByName(arg1);
+        executeDelete("http://localhost:8080/api/module/"+omodule.get().getId(),jwt);
     }
 
-    @Then("{string} is  not registered to cours in {string}")
-    public void isNotRegisteredToCoursIn(String arg0, String arg1) {
-        Optional<Cours> ocours = coursRepository.findByName(arg0);
-        assertTrue(!ocours.isPresent());
+    @Then("{string} is deleted from modules")
+    public void isDeletedFromModules(String arg0) throws IOException {
+        //module qui a le nom arg0 supprimé :
+        Optional<Module> omodule = moduleRepository.findByName(arg0);
+        assertTrue(!omodule.isPresent());
+
+        //module qui a l'id  supprimé :
+        HttpEntity entity = latestHttpResponse.getEntity();
+        String content = EntityUtils.toString(entity);
+        JSONObject jsonObject= new JSONObject(content);
+        int id=jsonObject.getInt("id");
+        omodule = moduleRepository.findById((long) id);
+        assertTrue(!omodule.isPresent());
+    }
+
+    @And("Then last delete request status is {int}")
+    public void thenLastDeleteRequestStatusIs(int arg0) {
+        assertEquals(latestHttpResponse.getStatusLine().getStatusCode(),arg0 );
 
     }
 }

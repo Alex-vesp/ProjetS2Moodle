@@ -1,5 +1,7 @@
 package fr.uca.springbootstrap.models;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -8,6 +10,10 @@ import java.util.Set;
 @Entity
 @Table(	name = "Questionnaire")
 public class Questionnaire {
+
+    public Long getId() {
+        return id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +61,12 @@ public class Questionnaire {
 
     @Override
     public String toString(){
-        return "\n id: "+this.id+"\n name: "+this.name+" \n des :"+this.des;
+
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("name",this.name);
+        jsonObject.put("des",this.des);
+        jsonObject.put("id",this.id);
+
+        return jsonObject.toString();
     }
 }
