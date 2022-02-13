@@ -8,6 +8,7 @@ import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -19,8 +20,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterCourseStepDefs extends SpringIntegration{
     private static final String PASSWORD = "password";
@@ -76,5 +76,10 @@ public class RegisterCourseStepDefs extends SpringIntegration{
 
         assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),200);
 
+    }
+
+    @Then("{string} is not registered to courses")
+    public void isNotRegisteredToCourses(String arg0) {
+        assertFalse(courseRepository.findByName(arg0).isPresent());
     }
 }

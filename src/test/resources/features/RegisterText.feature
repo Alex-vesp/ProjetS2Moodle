@@ -2,9 +2,10 @@ Feature: Register new Text
 
   Background:
     Given a teacher with login "teacherX"
-    And a cours "courseA" in module "moduleX"
+    And a module named "ModuleABC"
+    And a cours "courseABCD" in module "moduleABC"
 
   Scenario: Teacher register new text
-    When "teacherX" registers text "textA" in "courseA"
-    Then "textA" is registered to "courseA"
+    When "teacherX" registers text "textABC" in "courseABCD"
+    Then "textABC" is registered to "courseABCD"
     And Then last requestt status is 200

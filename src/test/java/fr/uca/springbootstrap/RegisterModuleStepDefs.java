@@ -10,6 +10,7 @@ import fr.uca.springbootstrap.repository.ModuleRepository;
 import fr.uca.springbootstrap.repository.RoleRepository;
 import fr.uca.springbootstrap.repository.UserRepository;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -22,8 +23,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterModuleStepDefs  extends SpringIntegration{
     private static final String PASSWORD = "password";
@@ -81,7 +81,12 @@ public class RegisterModuleStepDefs  extends SpringIntegration{
     @And("Then last request status is {int}")
     public void thenLastRequestStatusIs(int arg0) throws IOException {
 
-        assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),200);
+        assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),arg0);
 
+    }
+
+    @Then("{string} is  not registered to modules")
+    public void isNotRegisteredToModules(String arg0) {
+        assertFalse(moduleRepository.findByName(arg0).isPresent());
     }
 }

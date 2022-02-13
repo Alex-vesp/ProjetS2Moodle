@@ -2,7 +2,8 @@ Feature: Register new QstOuverte
 
   Background:
     Given a teacher with login "teacherX"
-    And a questionnaire "questX" in module "moduleX"
+    And a module named "ModuleABCX"
+    And a questionnaire "questX" in module "moduleABCX"
 
   Scenario: Teacher register new questionOuverte
     When "teacherX" registers questionOuverte "qstA" in "questX"

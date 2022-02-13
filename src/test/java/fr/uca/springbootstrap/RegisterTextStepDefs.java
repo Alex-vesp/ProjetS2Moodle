@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,12 +43,15 @@ public class RegisterTextStepDefs extends SpringIntegration{
 
     @And("a cours {string} in module {string}")
     public void aCoursInModule(String arg0, String arg1) {
-        System.out.println(coursRepository);
+
         Cours cours = coursRepository.findByName(arg0).orElse(new Cours(arg0,"destest"));
         coursRepository.save(cours);
+
         Module module = moduleRepository.findByName(arg1).orElse(new Module(arg1));
         module.getCours().add(cours);
         moduleRepository.save(module);
+
+        System.out.println("looooooooooooooooool"+module==null);
     }
 
     @When("{string} registers text {string} in {string}")
@@ -65,6 +67,7 @@ public class RegisterTextStepDefs extends SpringIntegration{
         Cours cours = coursRepository.findByName(arg1).get();
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
+        System.out.println("hahahahah"+content);
         JSONObject jsonObject= new JSONObject(content);
         int id=jsonObject.getInt("id");
         Optional<Text> text = textRepository.findById((long)id);

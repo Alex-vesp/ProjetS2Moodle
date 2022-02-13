@@ -18,6 +18,7 @@ public class Text {
 
     @NotBlank
     private String text;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(	name = "texts_cours",
             joinColumns = @JoinColumn(name = "Text_id"),
