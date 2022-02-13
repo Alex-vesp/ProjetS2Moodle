@@ -56,12 +56,13 @@ public class GetParticipantStepDefs extends SpringIntegration{
     @Then("participants of module {string} are read")
     public void participantsOfModuleAreRead(String arg0) throws IOException {
         //module qui a l'id  supprimé :
+        Optional<Module> omodule= moduleRepository.findByName(arg0);
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
         JSONObject jsonObject= new JSONObject(content);
-        String name=jsonObject.getString("name");
+        int id=jsonObject.getInt("id");
         //verifie que le nom de l'objet lu  dans la reponse correspoand  a arg0
-        assertTrue(name.equals(arg0));
+        assertTrue(omodule.get().getId().equals(id));
     }
     @And("Then last request status is {int}")
     public void thenLastRequestStatusIss(int arg0) {
