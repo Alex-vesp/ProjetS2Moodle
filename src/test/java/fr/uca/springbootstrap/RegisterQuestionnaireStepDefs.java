@@ -6,6 +6,7 @@ import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Questionnaire;
 import fr.uca.springbootstrap.repository.*;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
@@ -71,7 +72,11 @@ public class RegisterQuestionnaireStepDefs extends SpringIntegration{
     @And("Then last request status is  {int}")
     public void thenLastRequestStatusIs(int arg0) throws IOException {
 
-        assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),200);
+        assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),arg0);
 
+    }
+
+    @Then("{string} is not registered to questionnaires")
+    public void isNotRegisteredToQuestionnaires(String arg0) {
     }
 }

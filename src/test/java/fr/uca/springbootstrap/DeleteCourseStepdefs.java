@@ -81,4 +81,9 @@ public class DeleteCourseStepdefs extends SpringIntegration{
 
         coursRepository.save(cours);
     }
+
+    @Then("{string} is not deleted from courses")
+    public void isNotDeletedFromCourses(String arg0) {
+
+    }
 }
