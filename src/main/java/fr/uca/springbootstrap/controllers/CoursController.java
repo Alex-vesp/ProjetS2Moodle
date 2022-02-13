@@ -35,8 +35,12 @@ public class CoursController {
                     .badRequest()
                     .body(new MessageResponse("Error: No such cours!"));
         }
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",ocours.get().getId());
+        jsonObject.toString();
         coursRepository.delete(ocours.get());
-        return ResponseEntity.ok(new MessageResponse("Cours deleted !"));
+        return ResponseEntity.ok(jsonObject.toString());
+
 
 
     }
@@ -49,7 +53,12 @@ public class CoursController {
                     .badRequest()
                     .body(new MessageResponse("Error: No such cours!"));
         }
-        return ResponseEntity.ok(ocours.get().toString());
+
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",ocours.get().getId());
+        jsonObject.put("name",ocours.get().getName());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
     @GetMapping("")
     public ResponseEntity<?> getAllCours() {

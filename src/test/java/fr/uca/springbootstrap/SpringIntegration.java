@@ -32,7 +32,7 @@ public class SpringIntegration {
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
         }
-        System.out.println("staazaaaaaaaaaaaaaaaaart");
+        System.out.println("");
 
         System.out.println(latestHttpResponse==null);
         latestHttpResponse = httpClient.execute(request);

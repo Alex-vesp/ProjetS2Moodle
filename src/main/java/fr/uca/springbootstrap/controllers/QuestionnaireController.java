@@ -33,15 +33,20 @@ public class QuestionnaireController {
 
     @DeleteMapping("/{questID}")
     @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<?> deleteCours(@PathVariable long questID) {
+    public ResponseEntity<?> deleteQuestionnaire(@PathVariable long questID) {
         Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
         if (!oquest.isPresent()) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: No such questionnaire!"));
         }
+
+
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquest.get().getId());
+        jsonObject.toString();
         questionnaireRepository.delete(oquest.get());
-        return ResponseEntity.ok(new MessageResponse("questionnaire deleted !"));
+        return ResponseEntity.ok(jsonObject.toString());
 
 
     }
@@ -54,7 +59,11 @@ public class QuestionnaireController {
                     .badRequest()
                     .body(new MessageResponse("Error: No such questionnaire!"));
         }
-        return ResponseEntity.ok(oquest.get().toString());
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquest.get().getId());
+        jsonObject.put("name",oquest.get().getName());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
     @GetMapping("")
     public ResponseEntity<?> getAllCours() {
