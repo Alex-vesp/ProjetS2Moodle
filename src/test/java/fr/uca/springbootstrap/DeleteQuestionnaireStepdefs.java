@@ -84,4 +84,9 @@ public class DeleteQuestionnaireStepdefs extends SpringIntegration{
 
         questionnairepository.save(questionnaire);
     }
+
+    @Then("{string} is not deleted from questionnaire")
+    public void isNotDeletedFromQuestionnaire(String arg0) {
+
+    }
 }

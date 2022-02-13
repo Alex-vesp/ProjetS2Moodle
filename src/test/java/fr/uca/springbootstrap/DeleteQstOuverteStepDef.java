@@ -81,4 +81,7 @@ public class DeleteQstOuverteStepDef extends SpringIntegration{
         assertEquals(latestHttpResponse.getStatusLine().getStatusCode(),arg0 );
     }
 
+    @Then("{string} is not deleted to questionnaire {string}")
+    public void isNotDeletedToQuestionnaire(String arg0, String arg1) {
+    }
 }

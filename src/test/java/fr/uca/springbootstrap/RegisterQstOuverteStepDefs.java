@@ -88,4 +88,7 @@ public class RegisterQstOuverteStepDefs extends SpringIntegration{
     }
 
 
+    @Then("{string} is not registered to questionnaire {string}")
+    public void isNotRegisteredToQuestionnaire(String arg0, String arg1) {
+    }
 }

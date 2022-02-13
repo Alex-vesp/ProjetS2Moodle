@@ -79,4 +79,8 @@ public class DeleteTextStepDef extends SpringIntegration{
     public void thenLastDeleteeRequestStatusIs(int arg0) {
         assertEquals(latestHttpResponse.getStatusLine().getStatusCode(),arg0 );
     }
+
+    @Then("{string} is not deleted from questionnaire {string}")
+    public void isNotDeletedFromQuestionnaire(String arg0, String arg1) {
+    }
 }

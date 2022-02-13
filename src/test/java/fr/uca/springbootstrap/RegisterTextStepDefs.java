@@ -82,4 +82,8 @@ public class RegisterTextStepDefs extends SpringIntegration{
     public void thenLastRequesttStatusIs(int arg0) {
         assertEquals(this.latestHttpResponse.getStatusLine().getStatusCode(),arg0);
     }
+
+    @Then("{string} is not registered to {string}")
+    public void isNotRegisteredTo(String arg0, String arg1) {
+    }
 }
