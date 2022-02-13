@@ -38,6 +38,16 @@ public class Questionnaire {
             inverseJoinColumns = @JoinColumn(name = "QuestionOuverte_id"))
     private Set<QuestionOuverte> qsts;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "questionnaire_Qcm",
+            joinColumns = @JoinColumn(name = "Questionnaire_id"),
+            inverseJoinColumns = @JoinColumn(name = "Qcm_id"))
+    private Set<QCM> qcms;
+
+    public Set<QCM> getQcms() {
+        return qcms;
+    }
+
     public Questionnaire(String name, String des) {
         this.name=name;
         this.des=des;}
