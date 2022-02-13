@@ -5,6 +5,7 @@ import fr.uca.springbootstrap.models.Text;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,8 +32,11 @@ public class TextController {
                     .badRequest()
                     .body(new MessageResponse("Error: No such Text!"));
         }
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",otexts.get().getId());
+        jsonObject.toString();
         textRepository.delete(otexts.get());
-        return ResponseEntity.ok(new MessageResponse("Text deleted !"));
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
 

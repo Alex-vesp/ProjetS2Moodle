@@ -80,4 +80,8 @@ public class Module {
         jsonObject.put("id",this.id);
         return jsonObject.toString();
     }
+
+    public void setCours(Set<Cours> cours) {
+        this.cours = cours;
+    }
 }

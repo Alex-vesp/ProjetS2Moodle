@@ -39,4 +39,24 @@ public class QuestionOuverte {
         jsonObject.put("reponse",this.reponse);
         return jsonObject.toString();
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(String reponse) {
+        this.reponse = reponse;
+    }
 }

@@ -8,6 +8,7 @@ import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.QuestionOuverteRepository;
 import fr.uca.springbootstrap.repository.QuestionnaireRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,8 +35,11 @@ public class QuestionOuverteController {
                     .badRequest()
                     .body(new MessageResponse("Error: No such Question ouverte!"));
         }
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquestO.get().getId());
+        jsonObject.toString();
         questionOuverteRepository.delete(oquestO.get());
-        return ResponseEntity.ok(new MessageResponse("Question ouverte deleted !"));
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
 

@@ -62,10 +62,6 @@ public class Cours {
     public Cours() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
     @Override
     public String toString(){
         JSONObject jsonObject= new JSONObject();
