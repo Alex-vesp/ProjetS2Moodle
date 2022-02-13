@@ -44,6 +44,7 @@ public class RegisterTextStepDefs extends SpringIntegration{
 
     @And("a cours {string} in module {string}")
     public void aCoursInModule(String arg0, String arg1) {
+        System.out.println(coursRepository);
         Cours cours = coursRepository.findByName(arg0).orElse(new Cours(arg0,"destest"));
         coursRepository.save(cours);
         Module module = moduleRepository.findByName(arg1).orElse(new Module(arg1));
