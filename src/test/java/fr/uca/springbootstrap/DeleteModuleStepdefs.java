@@ -74,4 +74,8 @@ public class DeleteModuleStepdefs extends SpringIntegration{
         assertEquals(latestHttpResponse.getStatusLine().getStatusCode(),arg0 );
 
     }
+
+    @Then("{string} is not deleted from modules")
+    public void isNotDeletedFromModules(String arg0) {
+    }
 }
