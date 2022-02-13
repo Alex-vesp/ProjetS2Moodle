@@ -6,6 +6,6 @@ Feature: Register new Questionnaire
 
 
   Scenario: Teacher register new questionnaire
-    When "teacherZ" registers questionnaire "questionnaireZ" in module "ModuleUY"
-    Then "questionnaireZ" is registered to questionnaires
+    When "teacherZ" registers questionnaire "questionnaireZZ" in module "ModuleUY"
+    Then "questionnaireZZ" is registered to questionnaires
     And Then last request status is  200

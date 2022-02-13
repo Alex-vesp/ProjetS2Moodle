@@ -2,7 +2,7 @@ Feature: Register new Module
 
   Background:
     Given a teacher with login "teacherX"
-    And a student with login "studentnXV"
+    And a student with login "studentnXVXXC"
 
   Scenario: Teacher register new module
     When "teacherX" registers  module "ModuleA"
@@ -11,7 +11,7 @@ Feature: Register new Module
 
 
   Scenario: student register new module
-    When "studentnXV" registers  module "ModuleNV"
-    Then "ModuleNV" is  not registered to modules
+    When "studentnXVXXC" registers  module "ModuleNVCV"
+    Then "ModuleNVCV" is  not registered to modules
     And Then last request status is 403
 

@@ -40,18 +40,17 @@ public class RegisterTextStepDefs extends SpringIntegration{
     @Autowired
     AuthController authController;
 
-
+    long coursid;
     @And("a cours {string} in module {string}")
     public void aCoursInModule(String arg0, String arg1) {
-
-        Cours cours = coursRepository.findByName(arg0).orElse(new Cours(arg0,"destest"));
+        Cours cours=new Cours(arg0,"fe");
         coursRepository.save(cours);
-
-        Module module = moduleRepository.findByName(arg1).orElse(new Module(arg1));
+        coursid=cours.getId();
+        Module module= moduleRepository.findByName(arg1).get();
         module.getCours().add(cours);
         moduleRepository.save(module);
 
-        System.out.println("looooooooooooooooool"+module==null);
+
     }
 
     @When("{string} registers text {string} in {string}")
@@ -59,12 +58,12 @@ public class RegisterTextStepDefs extends SpringIntegration{
         String jwt = authController.generateJwt(arg0, PASSWORD);
         JSONObject jsonObject= new JSONObject();
         jsonObject.put("text",arg1);
-        executeOPost("http://localhost:8080/api/cours/"+coursRepository.findByName(arg2).get().getId()+"/texts/",jwt,jsonObject.toString());
+        executeOPost("http://localhost:8080/api/cours/"+coursid+"/texts/",jwt,jsonObject.toString());
     }
 
     @Then("{string} is registered to {string}")
     public void isRegisteredTo(String arg0, String arg1) throws IOException {
-        Cours cours = coursRepository.findByName(arg1).get();
+        Cours cours = coursRepository.findById(coursid).get();
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
         System.out.println("hahahahah"+content);

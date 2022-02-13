@@ -43,17 +43,18 @@ public class RegisterQstOuverteStepDefs extends SpringIntegration{
 
     @Autowired
     AuthController authController;
-    
 
 
+    long questID;
     @And("a questionnaire {string} in module {string}")
     public void aQuestionnaireInModule(String arg0, String arg1) {
-        Questionnaire quest = questRepository.findByName(arg0).orElse(new Questionnaire(arg0,"destest"));
-        questRepository.save(quest);
-        Module module = moduleRepository.findByName(arg1).orElse(new Module(arg1));
-        module.getQuestionnaires().add(quest);
-        System.out.println(module.getQuestionnaires());
+        Questionnaire questionnaire=new Questionnaire(arg0,"fe");
+        questRepository.save(questionnaire);
+        questID=questionnaire.getId();
+        Module module= moduleRepository.findByName(arg1).get();
+        module.getQuestionnaires().add(questionnaire);
         moduleRepository.save(module);
+
     }
 
     @When("{string} registers questionOuverte {string} in {string}")
@@ -62,12 +63,12 @@ public class RegisterQstOuverteStepDefs extends SpringIntegration{
         JSONObject jsonObject= new JSONObject();
         jsonObject.put("text",arg1);
         jsonObject.put("reponse","heh");
-        executeOPost("http://localhost:8080/api/questionnaire/"+questRepository.findByName(arg2).get().getId()+"/questionsOuvertes/",jwt,jsonObject.toString());
+        executeOPost("http://localhost:8080/api/questionnaire/"+questID+"/questionsOuvertes/",jwt,jsonObject.toString());
     }
 
     @Then("{string} is registered to questionnaire {string}")
     public void isRegisteredToQuestionnaire(String arg0, String arg1) throws IOException {
-        Questionnaire quest = questRepository.findByName(arg1).get();
+        Questionnaire quest = questRepository.findById(questID).get();
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
         JSONObject jsonObject= new JSONObject(content);
