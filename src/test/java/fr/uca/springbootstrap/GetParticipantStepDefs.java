@@ -64,8 +64,4 @@ public class GetParticipantStepDefs extends SpringIntegration{
         //verifie que le nom de l'objet lu  dans la reponse correspoand  a arg0
         assertTrue(omodule.get().getId().equals(id));
     }
-    @And("Then last request status is {int}")
-    public void thenLastRequestStatusIss(int arg0) {
-        assertEquals(latestHttpResponse.getStatusLine().getStatusCode(),arg0 );
-    }
 }
