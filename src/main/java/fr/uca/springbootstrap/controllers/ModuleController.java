@@ -145,6 +145,26 @@ public class ModuleController {
 		moduleRepository.delete(omodule.get());
 		return ResponseEntity.ok(jsonObject.toString());
 	}
+
+	@PutMapping("/{moduleID}")
+	@PreAuthorize("hasRole('TEACHER')")
+	public ResponseEntity<?> modifieModule(@Valid @RequestBody AddModuleRequest addModuleRequest,@PathVariable long moduleID) {
+
+		Optional<Module> omodule = moduleRepository.findById(moduleID);;
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+		Module module = omodule.get();
+		module.setName(addModuleRequest.getName());
+		moduleRepository.save(module);
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",omodule.get().getId());
+		jsonObject.toString();
+		return ResponseEntity.ok(jsonObject.toString());
+	}
+
 	//Ressources :
 	@PreAuthorize("hasRole('TEACHER')")
 	@PostMapping("/{moduleID}/Ressources/cours")

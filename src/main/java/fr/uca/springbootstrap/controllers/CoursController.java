@@ -98,6 +98,7 @@ public class CoursController {
 
         return ResponseEntity.ok(ocours.get().getTexts().toString());
     }
+
     @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/{coursID}/texts")
     public ResponseEntity<?> settexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long coursID) {
@@ -117,6 +118,7 @@ public class CoursController {
         jsonObject.toString();
         return ResponseEntity.ok(jsonObject.toString());
     }
+
     @PreAuthorize("hasRole('TEACHER')")
     @PutMapping("/{coursID}/texts/{textID}")
     public ResponseEntity<?> modifieTexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long textID,@PathVariable long coursID) {
