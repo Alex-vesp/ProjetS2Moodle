@@ -117,5 +117,27 @@ public class CoursController {
         jsonObject.toString();
         return ResponseEntity.ok(jsonObject.toString());
     }
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{coursID}/texts/{textID}")
+    public ResponseEntity<?> modifieTexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long textID,@PathVariable long coursID) {
+        Optional<Cours> ocours = coursRepository.findById(coursID);
+        Optional<Text> otexts = textRepository.findById(textID);
+        if (!otexts.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such Text!"));
+        }
+        Text text = otexts.get();
+        Cours cours = ocours.get();
+        cours.getTexts().remove(text);
+        text.setText(addTextRequest.getText());
+        textRepository.save(text);
+        cours.getTexts().add(text);
+        coursRepository.save(cours);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",otexts.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
 
 }
