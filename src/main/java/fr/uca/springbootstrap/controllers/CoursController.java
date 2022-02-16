@@ -3,7 +3,9 @@ package fr.uca.springbootstrap.controllers;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.YearDeserializer;
 import fr.uca.springbootstrap.models.Cours;
+import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Text;
+import fr.uca.springbootstrap.payload.request.AddRessourceRequest;
 import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.CoursRepository;
@@ -43,6 +45,25 @@ public class CoursController {
 
 
 
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{coursID}")
+    public ResponseEntity<?> modifieCours(@Valid @RequestBody AddRessourceRequest addRessourceRequest,@PathVariable long coursID) {
+        Optional<Cours> ocours = coursRepository.findById(coursID);
+        if (!ocours.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such cours!"));
+        }
+        Cours cours = ocours.get();
+        cours.setName(addRessourceRequest.getName());
+        cours.setDes(addRessourceRequest.getDes());
+        coursRepository.save(cours);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",ocours.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @GetMapping("/{coursID}")
