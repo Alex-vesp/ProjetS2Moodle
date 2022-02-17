@@ -260,6 +260,35 @@ public class ModuleController {
 		jsonObject.put("id",questionnaire.getId());
 		return ResponseEntity.ok(jsonObject.toString());
 	}
+	@PreAuthorize("hasRole('TEACHER')")
+	@PutMapping("/{moduleID}/Ressources/questionnaire/{questionnaireID}")
+	public ResponseEntity<?> modifieQuestionnaire(@Valid @RequestBody AddRessourceRequest addRessourceRequest, @PathVariable long moduleID,@PathVariable long questionnaireID) {
+		Optional<Module> omodule=moduleRepository.findById(moduleID);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+		Optional<Questionnaire> oquestionnaire = questionnaireRepository.findById(questionnaireID);
+		if (!oquestionnaire.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such cours!"));
+		}
+		//recuperation du cours et le modifier
+		Questionnaire questionnaire = oquestionnaire.get();
+		questionnaire.setName(addRessourceRequest.getName());
+		questionnaire.setDes(addRessourceRequest.getDes());
+		questionnaireRepository.save(questionnaire);
+		//recuperation du module
+		Module module=omodule.get();
+		module.getQuestionnaires().add(questionnaire);
+		moduleRepository.save(module);
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",oquestionnaire.get().getId());
+		jsonObject.toString();
+		return ResponseEntity.ok(jsonObject.toString());
+	}
 
 	@GetMapping("/{moduleID}/Ressources/questionnaire")
 	public ResponseEntity<?> getQuest(Principal principal,@PathVariable long moduleID) {
