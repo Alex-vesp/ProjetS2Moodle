@@ -81,7 +81,6 @@ public class DeleteQuestionnaireStepdefs extends SpringIntegration{
     @And("a questionnaire named aaa {string}")
     public void aQuestionnaireNamedAaa(String arg0) {
         Questionnaire questionnaire = questionnairepository.findByName(arg0).orElse(new Questionnaire(arg0,"psst"));
-
         questionnairepository.save(questionnaire);
     }
 
