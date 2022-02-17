@@ -1,4 +1,4 @@
 FROM maven:3.5.3-jdk-8-alpine
 COPY ./. /
-ENTRYPOINT ["mvn","spring-boot:run"]
+ENTRYPOINT ["mvn","test"]
 EXPOSE 8080
