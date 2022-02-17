@@ -1,6 +1,8 @@
 package fr.uca.springbootstrap.controllers;
 
 import fr.uca.springbootstrap.models.*;
+import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.payload.request.AddRessourceRequest;
 import fr.uca.springbootstrap.payload.request.addQuestionOuverteRequest;
 import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
@@ -48,6 +50,27 @@ public class QuestionnaireController {
         return ResponseEntity.ok(jsonObject.toString());
 
 
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{questionnaireID}")
+    public ResponseEntity<?> modifieQuestionnaire(@Valid @RequestBody AddRessourceRequest addRessourceRequest,  @PathVariable long questionnaireID) {
+        Optional<Questionnaire> oquestionnaire = questionnaireRepository.findById(questionnaireID);
+        if (!oquestionnaire.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such cours!"));
+        }
+        //recuperation du cours et le modifier
+        Questionnaire questionnaire = oquestionnaire.get();
+        questionnaire.setName(addRessourceRequest.getName());
+        questionnaire.setDes(addRessourceRequest.getDes());
+        questionnaireRepository.save(questionnaire);
+        //recuperation du module
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquestionnaire.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @GetMapping("/{questID}")
