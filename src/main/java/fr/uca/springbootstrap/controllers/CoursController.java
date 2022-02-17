@@ -3,7 +3,9 @@ package fr.uca.springbootstrap.controllers;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.YearDeserializer;
 import fr.uca.springbootstrap.models.Cours;
+import fr.uca.springbootstrap.models.Module;
 import fr.uca.springbootstrap.models.Text;
+import fr.uca.springbootstrap.payload.request.AddRessourceRequest;
 import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.CoursRepository;
@@ -45,6 +47,25 @@ public class CoursController {
 
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{coursID}")
+    public ResponseEntity<?> modifieCours(@Valid @RequestBody AddRessourceRequest addRessourceRequest,@PathVariable long coursID) {
+        Optional<Cours> ocours = coursRepository.findById(coursID);
+        if (!ocours.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such cours!"));
+        }
+        Cours cours = ocours.get();
+        cours.setName(addRessourceRequest.getName());
+        cours.setDes(addRessourceRequest.getDes());
+        coursRepository.save(cours);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",ocours.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
     @GetMapping("/{coursID}")
     public ResponseEntity<?> getCours(@PathVariable long coursID) {
         Optional<Cours> ocours = coursRepository.findById(coursID);
@@ -77,6 +98,7 @@ public class CoursController {
 
         return ResponseEntity.ok(ocours.get().getTexts().toString());
     }
+
     @PreAuthorize("hasRole('TEACHER')")
     @PostMapping("/{coursID}/texts")
     public ResponseEntity<?> settexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long coursID) {
@@ -93,6 +115,29 @@ public class CoursController {
         coursRepository.save(cours);
         JSONObject jsonObject= new JSONObject();
         jsonObject.put("id",text.getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{coursID}/texts/{textID}")
+    public ResponseEntity<?> modifieTexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long textID,@PathVariable long coursID) {
+        Optional<Cours> ocours = coursRepository.findById(coursID);
+        Optional<Text> otexts = textRepository.findById(textID);
+        if (!otexts.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such Text!"));
+        }
+        Text text = otexts.get();
+        Cours cours = ocours.get();
+        cours.getTexts().remove(text);
+        text.setText(addTextRequest.getText());
+        textRepository.save(text);
+        cours.getTexts().add(text);
+        coursRepository.save(cours);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",otexts.get().getId());
         jsonObject.toString();
         return ResponseEntity.ok(jsonObject.toString());
     }

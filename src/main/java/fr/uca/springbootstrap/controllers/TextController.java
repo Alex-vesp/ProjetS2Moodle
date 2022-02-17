@@ -2,6 +2,7 @@ package fr.uca.springbootstrap.controllers;
 
 import fr.uca.springbootstrap.models.Cours;
 import fr.uca.springbootstrap.models.Text;
+import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
 import fr.uca.springbootstrap.repository.CoursRepository;
 import fr.uca.springbootstrap.repository.TextRepository;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,6 +38,24 @@ public class TextController {
         jsonObject.put("id",otexts.get().getId());
         jsonObject.toString();
         textRepository.delete(otexts.get());
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{textID}")
+    public ResponseEntity<?> modifieTexts(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long textID) {
+        Optional<Text> otexts = textRepository.findById(textID);
+        if (!otexts.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such Text!"));
+        }
+        Text text = otexts.get();
+        text.setText(addTextRequest.getText());
+        textRepository.save(text);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",otexts.get().getId());
+        jsonObject.toString();
         return ResponseEntity.ok(jsonObject.toString());
     }
 

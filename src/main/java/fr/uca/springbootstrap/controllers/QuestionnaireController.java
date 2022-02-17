@@ -1,6 +1,8 @@
 package fr.uca.springbootstrap.controllers;
 
 import fr.uca.springbootstrap.models.*;
+import fr.uca.springbootstrap.models.Module;
+import fr.uca.springbootstrap.payload.request.AddRessourceRequest;
 import fr.uca.springbootstrap.payload.request.addQuestionOuverteRequest;
 import fr.uca.springbootstrap.payload.request.addTextRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
@@ -48,6 +50,27 @@ public class QuestionnaireController {
         return ResponseEntity.ok(jsonObject.toString());
 
 
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping("/{questionnaireID}")
+    public ResponseEntity<?> modifieQuestionnaire(@Valid @RequestBody AddRessourceRequest addRessourceRequest,  @PathVariable long questionnaireID) {
+        Optional<Questionnaire> oquestionnaire = questionnaireRepository.findById(questionnaireID);
+        if (!oquestionnaire.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such cours!"));
+        }
+        //recuperation du cours et le modifier
+        Questionnaire questionnaire = oquestionnaire.get();
+        questionnaire.setName(addRessourceRequest.getName());
+        questionnaire.setDes(addRessourceRequest.getDes());
+        questionnaireRepository.save(questionnaire);
+        //recuperation du module
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquestionnaire.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
     }
 
     @GetMapping("/{questID}")
@@ -147,6 +170,34 @@ public class QuestionnaireController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
+    @PutMapping("/{questID}/questionsOuvertes/{questouvID}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> modifieQuestionnaireOuvert(@Valid @RequestBody addQuestionOuverteRequest addQuestionOuverteRequest, @PathVariable long questID,@PathVariable long questouvID) {
+        Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
+        if (!oquest.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<QuestionOuverte> oquestO = questionOuverteRepository.findById(questouvID);
+        if (!oquestO.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such Question ouverte!"));
+        }
+        QuestionOuverte questionOuverte = oquestO.get();
+        questionOuverte.setText(addQuestionOuverteRequest.getText());
+        questionOuverte.setReponse(addQuestionOuverteRequest.getReponse());
+        questionOuverteRepository.save(questionOuverte);
+        Questionnaire questionnaire = oquest.get();
+        questionnaire.getQsts().add(questionOuverte);
+        questionnaireRepository.save(questionnaire);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oquestO.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
 
    //post new Qcm
     @PostMapping("/{questID}/Qcm")
@@ -169,8 +220,36 @@ public class QuestionnaireController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
+    @PutMapping("/{questID}/Qcm/{QcmID}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> modifieQcm(@Valid @RequestBody addQuestionOuverteRequest addQuestionOuverteRequest, @PathVariable long questID,@PathVariable long QcmID) {
+        Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
+        if (!oquest.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<QCM> oqcm = qcmRepository.findById(QcmID);
+        if (!oqcm.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such QCM!"));
+        }
+        QCM qcm = oqcm.get();
+        qcm.setText(addQuestionOuverteRequest.getText());
+        qcm.setReponse(addQuestionOuverteRequest.getReponse());
+        qcmRepository.save(qcm);
+        Questionnaire questionnaire = oquest.get();
+        questionnaire.getQcms().add(qcm);
+        questionnaireRepository.save(questionnaire);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oqcm.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
     //post new prop
-    @PostMapping("/{questID}/Qcm/{QcmID}/propositions")
+    @PostMapping("/{questID}/Qcm/{qcmID}/propositions")
     @PreAuthorize("hasRole('TEACHER')")
     public ResponseEntity<?> addprops(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long questID, @PathVariable long qcmID) {
         Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
@@ -192,6 +271,38 @@ public class QuestionnaireController {
         qcmRepository.save(oqcm.get());
         JSONObject jsonObject= new JSONObject();
         jsonObject.put("id",proposition.getId());
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
+    @PutMapping("/{questID}/Qcm/{QcmID}/propositions/{propID}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> modifieProposition(@Valid @RequestBody addTextRequest addTextRequest, @PathVariable long questID,@PathVariable long QcmID,@PathVariable long propID) {
+        Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
+        if (!oquest.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<QCM> oqcm = qcmRepository.findById(QcmID);
+        if (!oqcm.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such QCM!"));
+        }
+        Optional<Proposition> oprop = propositionRepository.findById(propID);
+        if (!oprop.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such Propostion!"));
+        }
+        Proposition proposition = oprop.get();
+        proposition.setText(addTextRequest.getText());
+        propositionRepository.save(proposition);
+        oqcm.get().getPropositions().add(proposition);
+        qcmRepository.save(oqcm.get());
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oprop.get().getId());
+        jsonObject.toString();
         return ResponseEntity.ok(jsonObject.toString());
     }
 
