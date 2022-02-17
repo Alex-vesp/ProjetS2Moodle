@@ -185,6 +185,36 @@ public class ModuleController {
 		jsonObject.toString();
 		return ResponseEntity.ok(jsonObject.toString());
 	}
+
+	@PreAuthorize("hasRole('TEACHER')")
+	@PutMapping("/{moduleID}/Ressources/cours/{coursID}")
+	public ResponseEntity<?> modifieCours(@Valid @RequestBody AddRessourceRequest addRessourceRequest, @PathVariable long moduleID,@PathVariable long coursID) {
+		Optional<Module> omodule=moduleRepository.findById(moduleID);
+		if (!omodule.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such Module!"));
+		}
+		Optional<Cours> ocours = coursRepository.findById(coursID);
+		if (!ocours.isPresent()) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: No such cours!"));
+		}
+		//recuperation du cours et le modifier
+		Cours cours = ocours.get();
+		cours.setName(addRessourceRequest.getName());
+		cours.setDes(addRessourceRequest.getDes());
+		coursRepository.save(cours);
+		//recuperation du module
+		Module module=omodule.get();
+		module.getCours().add(cours);
+		moduleRepository.save(module);
+		JSONObject jsonObject= new JSONObject();
+		jsonObject.put("id",ocours.get().getId());
+		jsonObject.toString();
+		return ResponseEntity.ok(jsonObject.toString());
+	}
 	//get All cours pour un module
 	@GetMapping("/{moduleID}/Ressources/cours")
 	public ResponseEntity<?> getcours(Principal principal,@PathVariable long moduleID) {
