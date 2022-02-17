@@ -75,5 +75,7 @@ public class PutCourseStepDef extends SpringIntegration{
 
     @Then("{string} is not changed to {string}")
     public void isNotChangedTo(String arg0, String arg1) {
+        Optional<Cours> ocours=coursRepository.findById(id);
+        assertTrue(!ocours.get().getName().equals(arg1));
     }
 }

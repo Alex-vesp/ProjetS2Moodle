@@ -57,14 +57,14 @@ public class DeleteCourseStepdefs extends SpringIntegration{
         Optional<Cours> ocourse= courseRepository.findByName(arg1);
         executeDelete("http://localhost:8080/api/cours/"+ocourse.get().getId(),jwt);
     }
-
+     long id;
     @Then("{string} is deleted from courses")
     public void isDeletedFromCourses(String arg0) throws IOException {
         //module qui a l'id  supprimé :
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
         JSONObject jsonObject= new JSONObject(content);
-        int id=jsonObject.getInt("id");
+         id=jsonObject.getInt("id");
         Optional <Cours> ocours = courseRepository.findById((long) id);
         assertTrue(!ocours.isPresent());
     }
@@ -83,7 +83,8 @@ public class DeleteCourseStepdefs extends SpringIntegration{
     }
 
     @Then("{string} is not deleted from courses")
-    public void isNotDeletedFromCourses(String arg0) {
+    public void isNotDeletedFromCourses(String arg0) throws IOException {
+
 
     }
 }

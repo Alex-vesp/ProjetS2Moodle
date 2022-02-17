@@ -56,7 +56,6 @@ public class PutQuestionnaireStepDef extends SpringIntegration{
     @Then("{string}   is named    {string}")
     public void isNamed(String arg0, String arg1) {
         Optional<Questionnaire> oquest= questionnaireRepository.findById(id);
-        System.out.println(oquest.get().getName());
         assertTrue(oquest.get().getName().equals(arg1));
     }
 
@@ -67,6 +66,8 @@ public class PutQuestionnaireStepDef extends SpringIntegration{
 
     @Then("{string} is not   changed to {string}")
     public void isNotChangedTo(String arg0, String arg1) {
+        Optional<Questionnaire> oquest= questionnaireRepository.findById(id);
+        assertTrue(!oquest.get().getName().equals(arg1));
     }
 
 

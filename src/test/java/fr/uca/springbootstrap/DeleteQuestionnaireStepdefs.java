@@ -54,14 +54,14 @@ public class DeleteQuestionnaireStepdefs extends SpringIntegration{
 
         executeDelete("http://localhost:8080/api/questionnaire/"+oquestionnaire.get().getId(),jwt);
     }
-
+     long id ;
     @Then("{string} is deleted from questionnaires")
     public void isDeletedFromQuestionnaires(String arg0) throws IOException {
         //module qui a l'id  supprimé :
         HttpEntity entity = latestHttpResponse.getEntity();
         String content = EntityUtils.toString(entity);
         JSONObject jsonObject= new JSONObject(content);
-        int id=jsonObject.getInt("id");
+        id=jsonObject.getInt("id");
         Optional <Questionnaire> oquestionnaire = questionnairepository.findById((long) id);
         assertTrue(!oquestionnaire.isPresent());
     }
@@ -86,6 +86,8 @@ public class DeleteQuestionnaireStepdefs extends SpringIntegration{
 
     @Then("{string} is not deleted from questionnaire")
     public void isNotDeletedFromQuestionnaire(String arg0) {
+        Optional <Questionnaire> oquestionnaire = questionnairepository.findById(id);
+        assertTrue(!oquestionnaire.isPresent());
 
     }
 }
