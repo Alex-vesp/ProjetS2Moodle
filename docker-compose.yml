@@ -15,7 +15,8 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   PostgreSQL:
-    image: postgres
+    image: docker_postgres
+    build: ./docker_postgres
     ports:
       - "5432:5432"
     environment:
