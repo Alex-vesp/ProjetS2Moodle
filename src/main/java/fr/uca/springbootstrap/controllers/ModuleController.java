@@ -273,7 +273,7 @@ public class ModuleController {
 		if (!oquestionnaire.isPresent()) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: No such cours!"));
+					.body(new MessageResponse("Error: No such questionnaire!"));
 		}
 		//recuperation du cours et le modifier
 		Questionnaire questionnaire = oquestionnaire.get();
