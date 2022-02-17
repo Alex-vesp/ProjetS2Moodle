@@ -63,4 +63,8 @@ public class GetParticipantsStepDef extends SpringIntegration{
         String name = jsonObject.getString("message");
         assertEquals(name,"[]");
     }
+
+    @Then("participants of module {string} are not  for {string}")
+    public void participantsOfModuleAreNotFor(String arg0, String arg1) {
+    }
 }
