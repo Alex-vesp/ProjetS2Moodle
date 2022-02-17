@@ -220,6 +220,34 @@ public class QuestionnaireController {
         return ResponseEntity.ok(jsonObject.toString());
     }
 
+    @PutMapping("/{questID}/Qcm/{QcmID}")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<?> modifieQcm(@Valid @RequestBody addQuestionOuverteRequest addQuestionOuverteRequest, @PathVariable long questID,@PathVariable long QcmID) {
+        Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
+        if (!oquest.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<QCM> oqcm = qcmRepository.findById(QcmID);
+        if (!oqcm.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such Question ouverte!"));
+        }
+        QCM qcm = oqcm.get();
+        qcm.setText(addQuestionOuverteRequest.getText());
+        qcm.setReponse(addQuestionOuverteRequest.getReponse());
+        qcmRepository.save(qcm);
+        Questionnaire questionnaire = oquest.get();
+        questionnaire.getQcms().add(qcm);
+        questionnaireRepository.save(questionnaire);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",oqcm.get().getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+
     //post new prop
     @PostMapping("/{questID}/Qcm/{QcmID}/propositions")
     @PreAuthorize("hasRole('TEACHER')")
