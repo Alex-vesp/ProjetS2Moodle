@@ -1,15 +1,11 @@
 package fr.uca.springbootstrap.controllers;
 
 
-import fr.uca.springbootstrap.models.QuestionOuverte;
-import fr.uca.springbootstrap.models.Questionnaire;
-import fr.uca.springbootstrap.models.Text;
+import fr.uca.springbootstrap.models.*;
+import fr.uca.springbootstrap.payload.request.AddResponseRequest;
 import fr.uca.springbootstrap.payload.request.addQuestionOuverteRequest;
 import fr.uca.springbootstrap.payload.response.MessageResponse;
-import fr.uca.springbootstrap.repository.CoursRepository;
-import fr.uca.springbootstrap.repository.QuestionOuverteRepository;
-import fr.uca.springbootstrap.repository.QuestionnaireRepository;
-import fr.uca.springbootstrap.repository.TextRepository;
+import fr.uca.springbootstrap.repository.*;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +23,11 @@ public class QuestionOuverteController {
     QuestionnaireRepository questionnaireRepository;
     @Autowired
     QuestionOuverteRepository questionOuverteRepository;
+
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ResponsesRepository repRepository;
 
 
     @DeleteMapping("/{questouvID}")
@@ -80,5 +81,57 @@ public class QuestionOuverteController {
                     .body(new MessageResponse("Error: No such Question !"));
         }
         return ResponseEntity.ok(oquesto.get().toString());
+    }
+    @PostMapping("/{questID}/questionsOuvertes/{qstID}/users/{userID}/reponses/")
+    public ResponseEntity<?> setRep(@Valid @RequestBody AddResponseRequest addResponseRequest, @PathVariable long questID , @PathVariable long qstID, @PathVariable long userID) {
+        Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
+        if (!oquest.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<QuestionOuverte> oqst = questionOuverteRepository.findById(questID);
+        if (!oqst.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<User> ouser = userRepository.findById(questID);
+        if (!ouser.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Responses rep = new Responses(addResponseRequest.getResponseText());
+        rep.setUsr(ouser.get());
+        ouser.get().setRep(rep);
+        repRepository.save(rep);
+        JSONObject jsonObject= new JSONObject();
+        jsonObject.put("id",rep.getId());
+        jsonObject.toString();
+        return ResponseEntity.ok(jsonObject.toString());
+    }
+    @GetMapping("/{questID}/questionsOuvertes/{qstID}/users/{userID}/reponses/")
+    public ResponseEntity<?> getRep(@PathVariable long questID , @PathVariable long qstID, @PathVariable long userID) {
+        Optional<Questionnaire> oquest = questionnaireRepository.findById(questID);
+        if (!oquest.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<QuestionOuverte> oqst = questionOuverteRepository.findById(questID);
+        if (!oqst.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+        Optional<User> ouser = userRepository.findById(questID);
+        if (!ouser.isPresent()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: No such questionnaire!"));
+        }
+
+        return ResponseEntity.ok(ouser.get().getRep().toString());
     }
 }

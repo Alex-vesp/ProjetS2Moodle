@@ -44,6 +44,19 @@ public class User {
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "module_id"))
 	private Set<Module> modules = new HashSet<>();
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinTable(	name = "Rep_Qst",
+			joinColumns = @JoinColumn(name = "users_id"),
+			inverseJoinColumns = @JoinColumn(name = "Responses_id"))
+	private Responses rep;
+
+	public Responses getRep() {
+		return rep;
+	}
+
+	public void setRep(Responses rep) {
+		this.rep = rep;
+	}
 
 	public User() {
 	}

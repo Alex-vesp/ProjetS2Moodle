@@ -1,7 +1,5 @@
 package fr.uca.springbootstrap.payload.request;
 
-import fr.uca.springbootstrap.models.QST;
-
 import javax.validation.constraints.NotBlank;
 
 public class AddQstRequest {
