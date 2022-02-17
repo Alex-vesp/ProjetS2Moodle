@@ -20,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class putFileStepDef extends SpringIntegration{
+public class PutModuleStepDef extends SpringIntegration{
     private static final String PASSWORD = "password";
 
     @Autowired

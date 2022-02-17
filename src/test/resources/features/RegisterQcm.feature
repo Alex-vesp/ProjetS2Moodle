@@ -1,4 +1,4 @@
-Feature: Register new QstOuverte
+Feature: Register new QCM
 
   Background:
     Given a teacher with login "teacherX"
