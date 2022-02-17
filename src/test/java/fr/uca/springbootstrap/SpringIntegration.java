@@ -6,6 +6,7 @@ import io.cucumber.spring.CucumberContextConfiguration;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -50,6 +51,8 @@ public class SpringIntegration {
         latestHttpResponse = httpClient.execute(request);
     }
 
+
+
     void executeDelete(String url, String jwt) throws IOException {
         HttpDelete request = new HttpDelete(url);
         request.addHeader("content-type", "application/json");
@@ -61,6 +64,17 @@ public class SpringIntegration {
 
     void executeOPost(String url, String jwt,String body) throws IOException {
         HttpPost request = new HttpPost(url);
+        request.addHeader("content-type", "application/json");
+        if (jwt != null) {
+            request.addHeader("Authorization", "Bearer " + jwt);
+        }
+        request.setEntity(new StringEntity(body));
+        latestHttpResponse = httpClient.execute(request);
+    }
+
+
+    void executePut(String url, String jwt,String body) throws IOException {
+        HttpPut request = new HttpPut(url);
         request.addHeader("content-type", "application/json");
         if (jwt != null) {
             request.addHeader("Authorization", "Bearer " + jwt);
