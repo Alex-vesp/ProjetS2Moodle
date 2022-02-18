@@ -46,6 +46,14 @@ public class Responses {
         return id;
     }
 
+    public String getResponseText() {
+        return ResponseText;
+    }
+
+    public void setResponseText(String responseText) {
+        ResponseText = responseText;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

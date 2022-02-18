@@ -4,13 +4,9 @@ import javax.validation.constraints.NotBlank;
 
 public class AddResponseRequest {
 
-    String ResponseText;
+    private String reptext;
 
-    public String getResponseText() {
-        return ResponseText;
-    }
-
-    public void setResponseText(String responseText) {
-        ResponseText = responseText;
+    public String getReptext() {
+        return reptext;
     }
 }
